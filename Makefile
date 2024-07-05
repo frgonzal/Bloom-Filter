@@ -12,11 +12,7 @@ TEST=./build/experimentation
 ## AQUI INCLUIR LOS ARCHIVOS .C 
 ## excepto main y test
 ## agregar un "\" al final de cada nombre
-SRC = \
-	src/dijkstra.cpp \
-	src/graph.cpp \
-	src/queue/fibonacci.cpp \
-	src/queue/heap.cpp
+SRC =
 
 
 ## nombre de los headers (automatico)
@@ -27,7 +23,7 @@ OBJS = $(SRC:./src/%.cpp=./build/%.o)
 
 
 all:
-	@echo " Dijkstra with Priority Queues"
+	@echo " Bloom Filter implementation"
 	@echo ""
 	@echo " use \"make help\" to get more info"
 
