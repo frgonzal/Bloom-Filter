@@ -1,0 +1,8 @@
+*.o
+*.zip
+
+main
+experimentation
+
+venv/
+Enunciado.pdf
