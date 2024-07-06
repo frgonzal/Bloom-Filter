@@ -12,7 +12,8 @@ TEST=./build/experimentation
 ## AQUI INCLUIR LOS ARCHIVOS .C 
 ## excepto main y test
 ## agregar un "\" al final de cada nombre
-SRC =
+SRC = \
+	src/BloomFilter.cpp \
 
 
 ## nombre de los headers (automatico)
