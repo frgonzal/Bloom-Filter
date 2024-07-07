@@ -19,9 +19,6 @@ public:
     /** Search for a key in the database. */
     std::tuple<bool, bool, std::string> search(const std::string &key) const override;
 
-    /* Get the class name. */
-    std::string className() const override;
-
     /* Get the filter name. */
     std::string filterName() const override;
 

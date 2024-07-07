@@ -12,15 +12,19 @@
 #include "../headers/db/BloomFilterDataBase.hpp"
 
 
+/* Data base Files */
+char namesDB[] = "db/names.csv";
+char otherNamesDB[] = "db/otherNames.csv";
+
 /* If true, save the results of the experimentation */
 bool save = false;
 
 /* Size of the data bases */
-const size_t filmNameSize = 71727;
-const size_t babyNameSize = 93889;
+const size_t otherNamesSize = 71727;
+const size_t namesSize = 93889;
 
 /* Size of the filter */
-size_t sizeFilter = 1e6;
+size_t sizeFilter = 1000000;
 
 /* Number of hash functions */
 size_t numHashes = 7;
@@ -37,7 +41,7 @@ size_t numHashes = 7;
 std::vector<std::string> getSearchKeys(size_t queries, double inDBPercentage, size_t seed = 8376){
     srand(seed);
 
-    if(queries*inDBPercentage > babyNameSize || queries*(1-inDBPercentage) > filmNameSize){
+    if(queries*inDBPercentage > namesSize || queries*(1-inDBPercentage) > otherNamesSize){
         throw std::runtime_error("Not enough keys in the data bases.");
     }
 
@@ -46,10 +50,9 @@ std::vector<std::string> getSearchKeys(size_t queries, double inDBPercentage, si
     std::vector<std::string> notInDB;
     std::string line;
 
-    std::ifstream DBFile("db/names.csv");
+    std::ifstream DBFile(namesDB);
     if(!DBFile.is_open()) throw std::runtime_error("Could not open file.");
-
-    inDB.reserve(babyNameSize);
+    inDB.reserve(namesSize);
     while(std::getline(DBFile, line)){
         inDB.push_back(line);
     }
@@ -60,10 +63,10 @@ std::vector<std::string> getSearchKeys(size_t queries, double inDBPercentage, si
         searchKeys.push_back(inDB[i]);
     }
 
-    std::ifstream notInDBFile("db/otherNames.csv");
+    std::ifstream notInDBFile(otherNamesDB);
     if(!notInDBFile.is_open()) throw std::runtime_error("Could not open file.");
 
-    notInDB.reserve(filmNameSize);
+    notInDB.reserve(otherNamesSize);
     while(std::getline(notInDBFile, line)){
         notInDB.push_back(line);
     }
@@ -92,14 +95,12 @@ std::vector<std::string> getSearchKeys(size_t queries, double inDBPercentage, si
 void save_result(double time, size_t N, double p, std::string DB, size_t found, size_t foundInFilter){
     std::ofstream file("results/results.csv", std::ios_base::app);
     if(!file.is_open()) throw std::runtime_error("Could not open file.");
-
     file << time << "," << N << "," << p << "," << sizeFilter << "," << numHashes << "," << DB << "," << found << "," << foundInFilter << "\n";
     file.close();
 }
 
 
-/** 
- *  @brief Perform a search in the given data base.
+/** Perform a search in the given data base.
  * 
  *  @tparam DB The type of the data base.
  *  @param db The data base to search in.
@@ -114,7 +115,7 @@ std::tuple<double, size_t, size_t> search(const DB &db, const std::vector<std::s
   
     auto start = std::chrono::high_resolution_clock::now();
 
-    for(const auto &key : keys){
+    for (const auto &key : keys) {
         auto [found, foundInFilter, res] = db.search(key);
         totalFound += found ? 1 : 0;
         totalFoundInFilter += foundInFilter ? 1 : 0;
@@ -141,8 +142,8 @@ int main(int argc, char* argv[]){
     std::vector<double> P = {0.0, 1.0/4, 1.0/2, 3.0/4, 1.0};
 
     /* Data bases */
-    NoFilterDataBase nfdb("db/names.csv");
-    BloomFilterDataBase bfdb("db/names.csv", sizeFilter, numHashes);
+    NoFilterDataBase nfdb(namesDB);
+    BloomFilterDataBase bfdb(namesDB, sizeFilter, numHashes);
 
     /* for N in {2^10, 2^12, 2^14, 2^16} */
     for(size_t i = 10; i <= 16; i += 2){
@@ -155,8 +156,8 @@ int main(int argc, char* argv[]){
             auto [timeBF, totalFoundBF, totalFoundInFilterBF] = search<BloomFilterDataBase>(bfdb, keys);
 
             if(save){
-                save_result(timeNF, N, p, "NoFilter", totalFoundNF, totalFoundInFilterNF);
-                save_result(timeBF, N, p, "BloomFilter", totalFoundBF, totalFoundInFilterBF);
+                save_result(timeNF, N, p, nfdb.filterName(), totalFoundNF, totalFoundInFilterNF);
+                save_result(timeBF, N, p, bfdb.filterName(), totalFoundBF, totalFoundInFilterBF);
             }
         }
     }
