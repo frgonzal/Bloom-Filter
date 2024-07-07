@@ -23,14 +23,14 @@ public:
     /** Insert a key into the bloom filter.
      *  @param key The key to insert.
      */
-    void insert(std::string key);
+    void insert(const std::string &key);
 
     /** Check if a key is in the bloom filter.
      *  One-sided error: if the function returns false, the key is definitely not in the bloom filter.  
      *  @param key The key to check.
      *  @return True if the key is in the bloom filter, false otherwise.
      */
-    bool contains(std::string key);
+    bool contains(const std::string &key) const;
 
 private:
 

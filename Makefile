@@ -1,7 +1,7 @@
 CC = g++
 
 ## agregar flags? como -g o -Wall
-CFLAGS = -std=c++17
+CFLAGS = -std=c++17 -g -Wall
 
 ## agregar librerias extra
 LDLIBS=
@@ -13,7 +13,9 @@ TEST=./build/experimentation
 ## excepto main y test
 ## agregar un "\" al final de cada nombre
 SRC = \
-	src/BloomFilter.cpp \
+	src/filter/BloomFilter.cpp \
+	src/db/BloomFilterDataBase.cpp \
+	src/db/NoFilterDataBase.cpp \
 
 
 ## nombre de los headers (automatico)
@@ -45,12 +47,8 @@ run: $(OBJS) $(TARGET).o
 .PHONY: run-exp
 run-exp: $(OBJS) $(TEST).o
 	@ $(CC) $(CFLAGS) $^ -o $(TEST) $(LDLIBS)
-ifeq ($(test-and-save), 1) 
-	@ $(TEST) --test --save
-else ifeq ($(save), 1) 
+ifeq ($(save), 1) 
 	@ $(TEST) --save
-else ifeq ($(test), 1) 
-	@ $(TEST) --test
 else
 	@ $(TEST)
 endif
@@ -79,6 +77,4 @@ help:
 	@echo "  clean          Clean the build files"
 	@echo "  help           Display this help message"
 	@echo "Options:"
-	@echo "  test=1   		Test the experimentation results"
 	@echo "  save=1	  	Save the time results"
-	@echo "  test-and-save=1	Test the experimentation results and save the time results"
