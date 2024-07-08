@@ -132,11 +132,13 @@ std::tuple<double, size_t, size_t> search(const DB &db, const std::vector<std::s
 
 /* Main function for the experimentation. */
 int main(int argc, char* argv[]){
-    if(argc > 1){
-        if(std::string(argv[1]) == "--save") {
-            save = true;
-        }
-    }
+    if(argc > 1 && std::string(argv[1]) == "--save") 
+        save = true;
+    if(argc > 2)
+        sizeFilter = std::atoll(argv[2]);
+    if(argc > 3)
+        numHashes = std::atoll(argv[3]);
+    
 
     /* Propotion of keys that are in the data base */
     std::vector<double> P = {0.0, 1.0/4, 1.0/2, 3.0/4, 1.0};
