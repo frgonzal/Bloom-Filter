@@ -24,10 +24,10 @@ const size_t otherNamesSize = 71727;
 const size_t namesSize = 93889;
 
 /* Size of the filter */
-size_t sizeFilter = 1000000;
+size_t sizeFilter = 100000;
 
 /* Number of hash functions */
-size_t numHashes = 7;
+size_t numHashes = 1;
 
 
 /** 
