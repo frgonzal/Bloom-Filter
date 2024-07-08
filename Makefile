@@ -53,6 +53,17 @@ else
 	@ $(TEST)
 endif
 
+.PHONY: run-all-exp
+run-all-exp: $(OBJS) $(TEST).o
+	@ $(CC) $(CFLAGS) $^ -o $(TEST) $(LDLIBS)
+	@ $(TEST) --save  100000 1
+	@ $(TEST) --save  250000 2
+	@ $(TEST) --save  500000 4
+	@ $(TEST) --save  750000 6
+	@ $(TEST) --save 1000000 7
+	@ $(TEST) --save 2000000 15
+
+
 zip:
 	zip -r Tarea2.zip 									\
 		./build/ ./headers/ ./src/	 					\
