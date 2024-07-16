@@ -24,10 +24,10 @@ const size_t otherNamesSize = 71727;
 const size_t namesSize = 93889;
 
 /* Size of the filter */
-size_t sizeFilter = 100000;
+size_t sizeFilter = 1000000;
 
 /* Number of hash functions */
-size_t numHashes = 1;
+size_t numHashes = 7;
 
 
 /** 
@@ -134,10 +134,10 @@ std::tuple<double, size_t, size_t> search(const DB &db, const std::vector<std::s
 int main(int argc, char* argv[]){
     if(argc > 1 && std::string(argv[1]) == "--save") 
         save = true;
-    if(argc > 2)
+    if(argc > 3){
         sizeFilter = std::atoll(argv[2]);
-    if(argc > 3)
         numHashes = std::atoll(argv[3]);
+    }
     
 
     /* Propotion of keys that are in the data base */

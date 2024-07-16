@@ -1,3 +1,4 @@
+PROJECT = BloomFilter
 CC = g++
 
 ## agregar flags? como -g o -Wall
@@ -22,7 +23,6 @@ SRC = \
 HDRS = $(wildcard headers/*.hpp)
 ## nombre de los .o (automatico)
 OBJS = $(SRC:./src/%.cpp=./build/%.o)
-
 
 
 all:
@@ -63,14 +63,17 @@ run-all-exp: $(OBJS) $(TEST).o
 	@ $(TEST) --save 1000000 7
 	@ $(TEST) --save 2000000 15
 
-
+.PHONY: zip
 zip:
-	zip -r Tarea2.zip 									\
-		./build/ ./headers/ ./src/	 					\
-		./results/img/ ./results/requirements.txt 		\
-		./results/results.csv ./results/results.ipynb 	\
-		./Makefile ./README.md 							\
-		./Informe.pdf
+	zip -r Tarea3.zip 				\
+		../$(PROJECT)/build/ 		\
+		../$(PROJECT)/db/			\
+		../$(PROJECT)/headers/ 		\
+		../$(PROJECT)/results/		\
+		../$(PROJECT)/src/	 		\
+		../$(PROJECT)/Makefile 		\
+		../$(PROJECT)/README.md  	\
+		../$(PROJECT)/Informe.pdf	\
 
 ## borra todo lo que se compilo
 .PHONY: clean
@@ -85,6 +88,7 @@ help:
 	@echo "Targets:"
 	@echo "  run            Build and run the main program"
 	@echo "  run-exp        Build and run the experimentation program"
+	@echo "  run-all-exp    Compila y ejecuta para varios valores de M y k"
 	@echo "  clean          Clean the build files"
 	@echo "  help           Display this help message"
 	@echo "Options:"
