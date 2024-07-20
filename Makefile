@@ -73,7 +73,7 @@ zip:
 		../$(PROJECT)/src/	 		\
 		../$(PROJECT)/Makefile 		\
 		../$(PROJECT)/README.md  	\
-		../$(PROJECT)/Informe.pdf	\
+		./Informe.pdf	\
 
 ## borra todo lo que se compilo
 .PHONY: clean

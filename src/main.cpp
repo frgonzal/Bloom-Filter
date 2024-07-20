@@ -20,13 +20,14 @@ int main(int argc, char* argv[]){
     NoFilterDataBase nfdb(namesDB);
     BloomFilterDataBase bfdb(namesDB, sizeFilter, numHashes);
 
-    std::cout << "Searching for JOHN in NoFilterDataBase" << std::endl;
-    std::cout << std::get<0>(nfdb.search("JOHN")) << std::endl;
-    std::cout << std::get<0>(bfdb.search("JOHN")) << std::endl;
+    std::cout << "Searching for JOHN" << std::endl;
+    std::cout << "\tNoFilterDataBase:    " << std::get<0>(nfdb.search("JOHN")) << std::endl;
+    std::cout << "\tBloomFilterDataBase: " << std::get<0>(bfdb.search("JOHN")) << std::endl;
+    std::cout << "\n";
 
-    std::cout << "Searching for NAVARRO in NoFilterDataBase" << std::endl;
-    std::cout << std::get<0>(nfdb.search("NAVARRO")) << std::endl;
-    std::cout << std::get<0>(bfdb.search("NAVARRO")) << std::endl;
+    std::cout << "Searching for NAVARRO" << std::endl;
+    std::cout << "\tNoFilterDataBase:    " << std::get<0>(nfdb.search("NAVARRO")) << std::endl;
+    std::cout << "\tBloomFilterDataBase: " << std::get<0>(bfdb.search("NAVARRO")) << std::endl;
     
 
     return 0;
