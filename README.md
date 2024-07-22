@@ -1,63 +1,58 @@
-# Filtro de Bloom
+# Bloom Filter
 
-## Ejecutar Proyecto
-### Necesario!
-El proyecto se construyo en un sistema operativo con linux y se utilizo
-la funcionalidad "make" para la compilación y ejecución del proyecto.    
-Por lo anterior, es necesario tener la funcionalidad "make" para ejecutar los test y el main.
+## Running the Project
+### Required!
+The project was built on a Linux operating system and used the "make" functionality for compiling and running the project.  
+Therefore, it is necessary to have the "make" functionality to run the tests and the main program.
 
-#### Versión del compilador
+#### Compiler Version
     g++ (GCC) 14.1.1
 
-#### Versión estándar con la que se compilo
+#### Standard Version Used for Compilation
     std=c++17
 
+### Running
+    Usage: make [target] [options]
+    Targets:
+        run            Compiles and runs the main file
+        run-exp        Compiles and runs the experimentation file
+        run-all-exp    Compiles and runs for various values of M and k
+        clean          Cleans up generated files
+        help           Help message
+    Options:
+        save=1          Save the results of the experimentation
 
-### Ejecutar
-	Uso: make [target] [options]
-	Targets:
-	    run            Compila y ejecuta archivo main
-	    run-exp        Compila y ejecuta archivo experimentation
-        run-all-exp    Compila y ejecuta para varios valores de M y k
-	    clean          Limpia los archivos generados
-	    help           Mensaje de ayuda
-	Options:
-	    save=1	        Guardar resultados de la experimentación
-
-
-### Ejecutar experimentación de la Tarea
-Para ejectuar todos los experimentos de la tarea basta con ejecutar:
+### Running Task Experimentation
+To execute all the experiments for the task, simply run:
 
     make run-exp
 
-Esto ejecutara los algoritmos de búsqueda para los valores de $N\in\{2^{10}, 2^{12}, 2^{14}, 2^{16}\}$ y para los valores de $p\in\{0, 1/4, 1/2, 3/4\}$, utilizando el valor M = 1.000.000 y k = 7.
+This will execute the search algorithms for values of $N\in\{2^{10}, 2^{12}, 2^{14}, 2^{16}\}$ and for values of $p\in\{0, 1/4, 1/2, 3/4\}$, using M = 1,000,000 and k = 7.
 
-Si se ejecuta "make run-exp save=1" entonces se guardaran los resultados de lo anterior en un archivo "results.csv", del cual luego se recupera la información para generar graficos comparativos.
+If you run "make run-exp save=1", the results will be saved in a "results.csv" file, from which information will later be retrieved to generate comparative graphs.
 
-#### Ejecutar más valores
-También se puede ejecutar el siguiente comando para experimentar con varios valores de M y k:
+#### Running with More Values
+You can also run the following command to experiment with various values of M and k:
 
     make run-all-exp
 
-Opcionalmente, se puede ejecutar:
+Optionally, you can run:
 
-    ./build/experimentation -- <valor de M> <valor de k>
+    ./build/experimentation -- <M value> <k value>
 
-
-
-## Estructura del proyecto
+## Project Structure
 
      .
-    ├──  build                             ## Ejecutables
+    ├──  build                             ## Executables
     │   ├──  experimentation
     │   ├──  experimentation.o
     │   ├──  main
     │   └──  main.o
-    ├──  db                                ## Archivos con los nombres, para simular base de datos.
+    ├──  db                                ## Files with names, to simulate a database.
     │   ├──  names.csv
     │   ├──  otherNames.csv
     │   └──  primes.csv
-    ├──  headers                           ## Headers del proyecto
+    ├──  headers                           ## Project headers
     │   ├──  db
     │   │   ├──  BloomFilterDataBase.hpp
     │   │   ├──  DataBase.hpp
@@ -66,14 +61,14 @@ Opcionalmente, se puede ejecutar:
     │       └──  BloomFilter.hpp
     ├──  Makefile                          
     ├──  README.md
-    ├──  results                           ## Resultados de la experimentación
+    ├──  results                           ## Experimentation results
     │   ├── 󰌠 requirements.txt
     │   ├──  results.csv
     │   ├──  results.html
     │   └── 󱧼 src
     │       ├──  clean.ipynb
     │       └──  results.ipynb
-    └── 󱧼 src                               ## Códigos de la tarea
+    └── 󱧼 src                               ## Task codes
         ├──  db
         │   ├──  BloomFilterDataBase.cpp
         │   └──  NoFilterDataBase.cpp
@@ -82,11 +77,6 @@ Opcionalmente, se puede ejecutar:
         │   └──  BloomFilter.cpp
         └──  main.cpp
 
+## Results
 
-## Resultados
-
-Los resultados de la experimentación se encuentran disponibles en el archivo results.ipynb,
-el cual lee los archivos generados por "experimentation" para generar gráficos y figuras con la información
-obtenida.    
-Para poder ejecutar el .ipynb, se cuenta con un archivo requirements.txt al interior de la carpeta ./resultados con todos los módulos necesarios.
-
+The results of the experimentation are available in the results/ folder.
