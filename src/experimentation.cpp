@@ -1,3 +1,4 @@
+#include "../headers/db/DataBase.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -8,8 +9,6 @@
 #include <time.h>
 #include <chrono>
 #include <stdio.h>
-#include "../headers/db/NoFilterDataBase.hpp"
-#include "../headers/db/BloomFilterDataBase.hpp"
 
 
 /* Data base Files */
@@ -106,8 +105,7 @@ void save_result(double time, size_t N, double p, std::string DB, size_t found, 
  *  @param db The data base to search in.
  *  @param keys The keys to search.
  */
-template <typename DB>
-std::tuple<double, size_t, size_t> search(const DB &db, const std::vector<std::string> &keys){
+std::tuple<double, size_t, size_t> search(const DataBase &db, const std::vector<std::string> &keys){
     std::cout << "Searching in " << db.filterName() << " Data Base\n";
 
     size_t totalFound = 0;
@@ -144,8 +142,8 @@ int main(int argc, char* argv[]){
     std::vector<double> P = {0.0, 1.0/4, 1.0/2, 3.0/4, 1.0};
 
     /* Data bases */
-    NoFilterDataBase nfdb(namesDB);
-    BloomFilterDataBase bfdb(namesDB, sizeFilter, numHashes);
+    DataBase nfdb(namesDB);
+    DataBase bfdb(namesDB, sizeFilter, numHashes);
 
     /* for N in {2^10, 2^12, 2^14, 2^16} */
     for(size_t i = 10; i <= 16; i += 2){
@@ -154,8 +152,8 @@ int main(int argc, char* argv[]){
         for (double p : P){
             printf("\nExperimentation with 2^%lu queries, %.2f in DB, %lu size filter and %lu hash functions\n\n", i, p, sizeFilter, numHashes);
             std::vector<std::string> keys = getSearchKeys(N, p);
-            auto [timeNF, totalFoundNF, totalFoundInFilterNF] = search<NoFilterDataBase>(nfdb, keys);
-            auto [timeBF, totalFoundBF, totalFoundInFilterBF] = search<BloomFilterDataBase>(bfdb, keys);
+            auto [timeNF, totalFoundNF, totalFoundInFilterNF] = search(nfdb, keys);
+            auto [timeBF, totalFoundBF, totalFoundInFilterBF] = search(bfdb, keys);
 
             if(save){
                 save_result(timeNF, N, p, nfdb.filterName(), totalFoundNF, totalFoundInFilterNF);

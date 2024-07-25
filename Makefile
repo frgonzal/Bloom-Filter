@@ -15,8 +15,8 @@ TEST=./build/experimentation
 ## agregar un "\" al final de cada nombre
 SRC = \
 	src/filter/BloomFilter.cpp \
-	src/db/BloomFilterDataBase.cpp \
-	src/db/NoFilterDataBase.cpp \
+	src/filter/NullFilter.cpp \
+	src/db/DataBase.cpp \
 
 
 ## nombre de los headers (automatico)

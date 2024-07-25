@@ -1,4 +1,7 @@
-#include "../../headers/db/BloomFilterDataBase.hpp"
+#include "../../headers/db/DataBase.hpp"
+#include "../../headers/filter/Filter.hpp"
+#include "../../headers/filter/NullFilter.hpp"
+#include "../../headers/filter/BloomFilter.hpp"
 #include <fstream>
 #include <optional>
 #include <unistd.h>
@@ -7,9 +10,11 @@
 
 
 
-BloomFilterDataBase::BloomFilterDataBase(const std::string &dbFileName, size_t size, size_t numHashes)
-    : dbFileName(dbFileName), bf(size, numHashes) {
-    
+
+
+DataBase::DataBase(const std::string &dbFileName, size_t size, size_t numHashes) 
+    : dbFileName(dbFileName), filter(new BloomFilter(size, numHashes)) {
+
     std::ifstream file(dbFileName);
     if(!file.is_open()){
         throw std::runtime_error("Could not open file.");
@@ -17,17 +22,25 @@ BloomFilterDataBase::BloomFilterDataBase(const std::string &dbFileName, size_t s
 
     std::string line;
     while(std::getline(file, line)){
-        bf.insert(line);
+        filter->insert(line);
     }
 
     file.close();
 }
 
 
+DataBase::DataBase(const std::string &dbFileName) 
+    : dbFileName(dbFileName), filter(new NullFilter()) {}
 
-std::tuple<bool, bool, std::string> BloomFilterDataBase::search(const std::string &key) const {
 
-    if(!bf.contains(key)){
+DataBase::~DataBase() {
+    delete filter;
+}
+
+
+std::tuple<bool, bool, std::string> DataBase::search(const std::string &key) const {
+
+    if (!filter->contains(key)) {
         return std::make_tuple(false, false, "not found");
     }
 
@@ -49,6 +62,6 @@ std::tuple<bool, bool, std::string> BloomFilterDataBase::search(const std::strin
 
 
 
-std::string BloomFilterDataBase::filterName() const {
-    return "BloomFilter";
+std::string DataBase::filterName() const {
+    return filter->toString();
 }

@@ -95,4 +95,9 @@ bool BloomFilter::contains(const std::string &key) const {
 }
 
 
+std::string BloomFilter::toString() const {
+    return "BloomFilter";
+}
+
+
 

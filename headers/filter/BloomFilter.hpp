@@ -2,12 +2,10 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include "Filter.hpp"
 
-
-/** @struct BloomFilter
- *  @brief A class to represent a bloom filter.
- */
-class BloomFilter {
+/** @class A filter class to represent a bloom filter. */
+class BloomFilter : public Filter {
 
 public:
 
@@ -23,14 +21,16 @@ public:
     /** Insert a key into the bloom filter.
      *  @param key The key to insert.
      */
-    void insert(const std::string &key);
+    void insert(const std::string &key) override;
 
     /** Check if a key is in the bloom filter.
      *  One-sided error: if the function returns false, the key is definitely not in the bloom filter.  
      *  @param key The key to check.
      *  @return True if the key is in the bloom filter, false otherwise.
      */
-    bool contains(const std::string &key) const;
+    bool contains(const std::string &key) const override;
+
+    std::string toString() const override;
 
 private:
 
@@ -45,5 +45,4 @@ private:
 
     /* The hash functions to use. */
     std::vector<std::function< size_t (std::string) >> hash;
-
 };

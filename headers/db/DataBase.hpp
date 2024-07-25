@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <tuple>
+#include "../filter/Filter.hpp"
 
 
 
@@ -10,6 +11,17 @@
 class DataBase {
 
 public:
+
+    /** Constructor.
+     * 
+     * @param filter The filter to be used by the database.
+     */
+    DataBase(const std::string &dbFileName, size_t size, size_t numHashes);
+
+    DataBase(const std::string &dbFileName);
+
+    /** Destructor. */
+    ~DataBase();
 
     /** Search for a key in the database.
      * 
@@ -24,8 +36,16 @@ public:
      * @param key The key to search for.
      * @return A tuple with three values.
      */
-    virtual std::tuple<bool, bool, std::string> search(const std::string &key) const = 0;
+    std::tuple<bool, bool, std::string> search(const std::string &key) const;
 
     /* Get the filter name. */
-    virtual std::string filterName() const = 0;
+    std::string filterName() const;
+
+private:
+
+    /** The name of the file to read the database from. */
+    std::string dbFileName;
+
+    /* The filter used by the database. */
+    Filter *filter;
 };
